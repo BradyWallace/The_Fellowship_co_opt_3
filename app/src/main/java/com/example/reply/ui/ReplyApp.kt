@@ -58,13 +58,38 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.reply.R
 import com.example.reply.ui.utils.DevicePosture
+import com.example.reply.ui.utils.ReplyNavigationType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReplyApp(replyHomeUIState: ReplyHomeUIState,
              windowSize: WindowWidthSizeClass,
              foldingDevicePosture: DevicePosture) {
-    // You will add navigation info here,
+    // You will add navigation info here
+    /**
+     * This will help us select type of navigation and content type depending on window size and
+     * fold state of the device.
+     */
+    val navigationType: ReplyNavigationType
+
+    when (windowSize) {
+        WindowWidthSizeClass.Compact -> {
+            navigationType = ReplyNavigationType.BOTTOM_NAVIGATION
+        }
+        WindowWidthSizeClass.Medium -> {
+            navigationType = ReplyNavigationType.NAVIGATION_RAIL
+        }
+        WindowWidthSizeClass.Expanded -> {
+            navigationType = if (foldingDevicePosture is DevicePosture.BookPosture) {
+                ReplyNavigationType.NAVIGATION_RAIL
+            } else {
+                ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER
+            }
+        }
+        else -> {
+            navigationType = ReplyNavigationType.BOTTOM_NAVIGATION
+        }
+    }
     ReplyNavigationWrapperUI(replyHomeUIState)
 }
 
