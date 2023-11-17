@@ -76,7 +76,8 @@ class MainActivity : ComponentActivity() {
             ReplyTheme {
                 val windowSize = calculateWindowSizeClass(activity = (this))
                 val uiState = viewModel.uiState.collectAsState().value
-                ReplyApp(uiState, windowSize.widthSizeClass)
+                val devicePosture = devicePostureFlow.collectAsState().value
+                ReplyApp(uiState, windowSize.widthSizeClass, devicePosture)
             }
         }
     }
@@ -86,9 +87,11 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ReplyAppPreview() {
     ReplyTheme {
-        ReplyApp(replyHomeUIState = ReplyHomeUIState(
-            emails = LocalEmailsDataProvider.allEmails
-        ), windowSize = WindowWidthSizeClass.Compact)
+        ReplyApp(
+            replyHomeUIState = ReplyHomeUIState(emails = LocalEmailsDataProvider.allEmails),
+            windowSize = WindowWidthSizeClass.Compact,
+            foldingDevicePosture = DevicePosture.NormalPosture,
+            )
     }
 }
 
@@ -96,9 +99,10 @@ fun ReplyAppPreview() {
 @Composable
 fun ReplyAppPreviewTablet() {
     ReplyTheme {
-        ReplyApp(replyHomeUIState = ReplyHomeUIState(
-            emails = LocalEmailsDataProvider.allEmails
-        ), windowSize = WindowWidthSizeClass.Medium)
+        ReplyApp(replyHomeUIState = ReplyHomeUIState(emails = LocalEmailsDataProvider.allEmails),
+            windowSize = WindowWidthSizeClass.Medium,
+            foldingDevicePosture = DevicePosture.NormalPosture,
+            )
     }
 }
 
@@ -106,8 +110,9 @@ fun ReplyAppPreviewTablet() {
 @Composable
 fun ReplyAppPreviewDesktop() {
     ReplyTheme {
-        ReplyApp(replyHomeUIState = ReplyHomeUIState(
-            emails = LocalEmailsDataProvider.allEmails
-        ), windowSize = WindowWidthSizeClass.Expanded)
+        ReplyApp(replyHomeUIState = ReplyHomeUIState(emails = LocalEmailsDataProvider.allEmails),
+            windowSize = WindowWidthSizeClass.Expanded,
+            foldingDevicePosture = DevicePosture.NormalPosture,
+            )
     }
 }
